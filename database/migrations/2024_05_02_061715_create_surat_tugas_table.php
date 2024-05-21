@@ -13,17 +13,17 @@ return new class extends Migration
     {
         Schema::create('surat_tugas', function (Blueprint $table) {
             $table->id();
-            $table->string('nomor');
-            $table->foreignId('dosen_id');
-            $table->date('tanggal');
-            $table->longText('keterangan');
-            $table->date('waktu_awal');
-            $table->date('waktu_akhir');
+            $table->string('nomor')->nullable();
+            $table->foreignId('dosen_id')->nullable();
+            $table->date('tanggal')->nullable();
+            $table->longText('keterangan')->nullable();
+            $table->date('waktu_awal')->nullable();
+            $table->date('waktu_akhir')->nullable();
             $table->foreignId('bukti_id')->nullable();
             $table->foreignId('jenis_id')->nullable();
-            $table->foreignId('tingkat_id');
+            $table->foreignId('tingkat_id')->nullable();
             $table->string('akreditasi')->nullable();
-            $table->foreignId('peran_id');
+            $table->foreignId('peran_id')->nullable();
             $table->foreignId('publikasi_id')->nullable();
             $table->timestamps();
         });

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\SuratTugas;
 use App\Models\Dosen;
+use App\Models\Jenis;
 use Illuminate\Http\Request;
 use App\Imports\SuratTugasImport;
 use Maatwebsite\Excel\Facades\Excel;
@@ -18,7 +19,9 @@ class SuratTugasController extends Controller
         return view('surattugas.index', [
             'title' => 'Data Surat Tugas',
             'surattugas' => SuratTugas::all(),
-            'dosens' => Dosen::all()
+            'dosen' => Dosen::all(),
+            'jenis' => Jenis::all(),
+
         ]);
     }
 
@@ -59,12 +62,12 @@ class SuratTugasController extends Controller
             'keterangan' => 'required',
             'waktu_awal' => 'required',
             'waktu_akhir' => 'required',
-            'bukti' => 'required',
-            'jenis' => 'required',
-            'tingkat' => 'required',
+            'bukti_id' => 'required',
+            'jenis_id' => 'required',
+            'tingkat_id' => 'required',
             'akreditasi' => 'required',
-            'peran' => 'required',
-            'publikasi' => 'required'
+            'peran_id' => 'required',
+            'publikasi_id' => 'required'
         ]);
 
         $validatedData['user_id'] = auth()->user()->id;
@@ -105,12 +108,12 @@ class SuratTugasController extends Controller
             'keterangan' => 'required',
             'waktu_awal' => 'required',
             'waktu_akhir' => 'required',
-            'bukti' => 'required',
-            'jenis' => 'required',
-            'tingkat' => 'required',
+            'bukti_id' => 'required',
+            'jenis_id' => 'required',
+            'tingkat_id' => 'required',
             'akreditasi' => 'required',
-            'peran' => 'required',
-            'publikasi' => 'required'
+            'peran_id' => 'required',
+            'publikasi_id' => 'required'
         ];
 
         if ($request->nomor != $suratTugas->nomor) {

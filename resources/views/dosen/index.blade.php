@@ -70,50 +70,99 @@
                 <canvas id="barChart" style="max-height: 300px;"></canvas>
             </div>
 
-            <div class="col-md-12 mb-3">
-                <!-- Tabel -->
-                <h4>Publikasi</h4>
-                <div class="table-responsive">
+            <div class="row">
+                <div class="col-md-6">
+                    <h4>Jumlah Akreditasi untuk Dosen</h4>
                     <table class="table table-striped">
                         <thead>
                             <tr>
-                                <th>#</th>
-                                <th>Nama</th>
-                                <th>Usia</th>
-                                <th>Kota</th>
+                                <th colspan="2" style="text-align: center;">Jurnal Internasional</th>
                             </tr>
                         </thead>
                         <tbody>
+                            @foreach ($jumlahAkreditasiPerKategori as $data)
+                            @if ($data->jumlah_akreditasi !== null)
                             <tr>
-                                <td>1</td>
-                                <td>John Doe</td>
-                                <td>30</td>
-                                <td>New York</td>
+                                <td>{{ $data->akreditasi }}</td>
+                                <td>{{ $data->jumlah_akreditasi }}</td>
                             </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Jane Smith</td>
-                                <td>25</td>
-                                <td>Los Angeles</td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>David Brown</td>
-                                <td>35</td>
-                                <td>Chicago</td>
-                            </tr>
-                            <!-- Tambahkan baris lain sesuai kebutuhan -->
+                            @endif
+                        @endforeach
                         </tbody>
                     </table>
                 </div>
+                <div class="col-md-6">
+                    <!-- Tabel Jurnal Internasional -->
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th colspan="2" style="text-align: center;">Jurnal Internasional</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Isi tabel Jurnal Internasional -->
+                                <tr>
+                                    <td>S1</td>
+                                    <td></td> <!-- Kolom kanan kosong -->
+                                </tr>
+                                <tr>
+                                    <td>S2</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>S3</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>S4</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>S5</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>S6</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>S</td> <!-- Digabungkan 2 baris -->
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                </tr>
+                                <!-- Tambahkan baris lain sesuai kebutuhan -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
-
+            
+            
             <div class="col-md-12">
                 <!-- List -->
                 <h3>Penunjang</h3>
-                <p>Tempat untuk menampilkan list data</p>
+                <ul>
+                    @foreach ($penunjang as $data)
+                        <li>
+                            <div class="d-flex align-items-center">
+                                <!-- Indikator bulat -->
+                                <div class="indicator @if($data->waktu_akhir > now()->addDays(7)) bg-success @elseif($data->waktu_akhir > now()->addDays(2)) bg-warning @else bg-danger @endif"></div>
+                                <!-- Keterangan -->
+                                <div>
+                                    {{ $data->keterangan }} - {{ \Carbon\Carbon::parse($data->waktu_awal)->format('d M Y') }} - {{ \Carbon\Carbon::parse($data->waktu_akhir)->format('d M Y') }}
+                                </div>
+                            </div>
+                        </li>
+                    @endforeach
+                </ul>
             </div>
+            
         </div>
+    </div>
+</div>
 
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <script>

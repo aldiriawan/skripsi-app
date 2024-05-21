@@ -37,11 +37,11 @@
             @foreach ($surattugas as $s)
             <tr>
                 <td>{{ $s->nomor }}</td>
-                <td>{{ $s->dosen->nama }}</td>
+                <td>{{ $s->dosen_id }}</td>
                 <td>{{ \Carbon\Carbon::parse($s->tanggal)->format('d M Y') }}</td>
                 <td>{{ $s->keterangan }}</td>
                 <td>{{ \Carbon\Carbon::parse($s->waktu)->format('d M Y') }}</td>
-                <td>{{ $s->jenis }}</td>
+                <td>{{ $s->jenis_id }}</td>
                 <td>
                     <a href="/surattugas/{{ $s->nomor }}" class="btn btn-info mr-2"><i class="bi bi-eye-fill"></i></a>
                     <a href="/surattugas/{{ $s->nomor }}/edit" class="btn btn-warning mr-2"><i class="bi bi-pencil-square"></i></a>

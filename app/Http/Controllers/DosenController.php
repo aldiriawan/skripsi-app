@@ -6,6 +6,7 @@ use App\Models\Dosen;
 use App\Models\SuratTugas;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\DB;
 
 class DosenController extends Controller
 {
@@ -16,7 +17,7 @@ class DosenController extends Controller
     {
         $search = $request->query('search');
         $program_studi = $request->query('program_studi');
-        $selectedDosenId = $request->query('dosen_id'); // Mengambil dosen_id dari request
+        $dosen_id = $request->query('dosen_id'); // Mendapatkan ID dosen yang dipilih
 
         $query = Dosen::query();
 
@@ -30,15 +31,32 @@ class DosenController extends Controller
 
         $dosen = $query->get();
         $selectedDosen = null;
+        $penunjang = collect();
 
-        if ($selectedDosenId) {
-            $selectedDosen = Dosen::find($selectedDosenId); // Mengambil data dosen yang terpilih
+        if ($dosen_id) {
+            $selectedDosen = Dosen::find($dosen_id);
+            if ($selectedDosen) {
+                $penunjang = SuratTugas::where('dosen_id', $dosen_id)
+                    ->where('jenis_id', 2)
+                    ->get();
+            }
         }
+
+        $selectedDosenId = $request->input('dosen_id');
+
+        // Mengambil jumlah akreditasi untuk setiap kategori (misal: S1, S2, dst.) berdasarkan dosen yang dipilih
+        $jumlahAkreditasiPerKategori = SuratTugas::where('dosen_id', $selectedDosenId)
+            ->select('akreditasi', DB::raw('COUNT(*) as jumlah_akreditasi'))
+            ->groupBy('akreditasi')
+            ->get();
 
         return view('dosen.index', [
             'title' => 'Data Dosen',
             'dosen' => $dosen,
-            'selectedDosen' => $selectedDosen // Mengirim data dosen yang terpilih ke view
+            'selectedDosen' => $selectedDosen,
+            'penunjang' => $penunjang,
+            'jumlahAkreditasiPerKategori' => $jumlahAkreditasiPerKategori,
+            'selectedDosenId' => $selectedDosenId,
         ]);
     }
 
