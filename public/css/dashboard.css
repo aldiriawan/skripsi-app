@@ -68,4 +68,18 @@
   background-color: red;
 }
 
-  
+.table-small {
+  max-width: 100%;
+  table-layout: fixed;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.table-small th, .table-small td {
+  padding: 8px;
+  text-align: center;
+}
+
+.table-small th[colspan="2"] {
+  text-align: center;
+}

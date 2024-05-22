@@ -67,81 +67,101 @@
             <div class="col-md-12 mb-3">
                 <h4 class="my-3">{{ $selectedDosen->nama }}</h4>
                 <!-- Grafik Batang -->
+                <h4 class="mb-0 text-center">Kinerja Dosen Pertahun</h4>
                 <canvas id="barChart" style="max-height: 300px;"></canvas>
             </div>
 
             <div class="row">
-                <div class="col-md-6">
-                    <h4>Jumlah Akreditasi untuk Dosen</h4>
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th colspan="2" style="text-align: center;">Jurnal Internasional</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($jumlahAkreditasiPerKategori as $data)
-                            @if ($data->jumlah_akreditasi !== null)
-                            <tr>
-                                <td>{{ $data->akreditasi }}</td>
-                                <td>{{ $data->jumlah_akreditasi }}</td>
-                            </tr>
-                            @endif
-                        @endforeach
-                        </tbody>
-                    </table>
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4 class="mb-0">Publikasi</h4>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                            Pilih Tahun
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">2021</a></li>
+                            <li><a class="dropdown-item" href="#">2022</a></li>
+                            <li><a class="dropdown-item" href="#">2023</a></li>
+                            <li><a class="dropdown-item" href="#">2024</a></li>
+                        </ul>
+                    </div>
                 </div>
-                <div class="col-md-6">
-                    <!-- Tabel Jurnal Internasional -->
-                    <div class="table-responsive">
-                        <table class="table table-striped">
+                <div class="row">
+                    <div class="col-md-3">
+                        <table class="table table-small table-striped">
                             <thead>
                                 <tr>
-                                    <th colspan="2" style="text-align: center;">Jurnal Internasional</th>
+                                    <th colspan="2" style="text-align: center;">Jurnal Nasional</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <!-- Isi tabel Jurnal Internasional -->
-                                <tr>
-                                    <td>S1</td>
-                                    <td></td> <!-- Kolom kanan kosong -->
-                                </tr>
-                                <tr>
-                                    <td>S2</td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td>S3</td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td>S4</td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td>S5</td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td>S6</td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td>S</td> <!-- Digabungkan 2 baris -->
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                </tr>
-                                <!-- Tambahkan baris lain sesuai kebutuhan -->
+                                @php
+                                    $kategoriAkreditasi = ['S1', 'S2', 'S3', 'S4', 'S5', 'S6'];
+                                @endphp
+                                @foreach ($kategoriAkreditasi as $kategori)
+                                    @php
+                                        $jumlah = $jumlahAkreditasiPerKategori->firstWhere('akreditasi', $kategori);
+                                    @endphp
+                                    <tr>
+                                        <td>{{ $kategori }}</td>
+                                        <td>{{ $jumlah ? $jumlah->jumlah_akreditasi : 0 }}</td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
+                    <div class="col-md-3">
+                        <!-- Tabel Jurnal Internasional -->
+                        <div class="table-responsive">
+                            <table class="table table-small table-striped">
+                                <thead>
+                                    <tr>
+                                        <th colspan="2" style="text-align: center;">Internasional</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Isi tabel Jurnal Internasional -->
+                                    <tr>
+                                        <td>S1</td>
+                                        <td></td> <!-- Kolom kanan kosong -->
+                                    </tr>
+                                    <tr>
+                                        <td>S2</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>S3</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>S4</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>S5</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>S6</td>
+                                        <td></td>
+                                    </tr>
+                                    <!-- Tambahkan baris lain sesuai kebutuhan -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div>
+                            <p><strong>Jurnal Internasional:</strong></p>
+                            <p><strong>Jurnal Nasional:</strong></p>
+                            <p><strong>Jumlah HKI:</strong></p>
+                            <p><strong>Jumlah Paten:</strong></p>
+                        </div>
+                    </div>
                 </div>
             </div>
-            
-            
-            <div class="col-md-12">
+                        
+        <div class="col-md-12">
                 <!-- List -->
                 <h3>Penunjang</h3>
                 <ul>
@@ -167,7 +187,7 @@
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <script>
             // Data dummy untuk grafik batang
-            var labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'];
+            var labels = ['2021', '2022', '2023', '2024'];
             var data = [65, 59, 80, 81, 56, 55];
 
             // Mendapatkan konteks dari elemen canvas
