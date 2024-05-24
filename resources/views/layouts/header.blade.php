@@ -1,23 +1,27 @@
-<header class="navbar navbar-expand-md navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow" data-bs-theme="dark">
-    <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6 text-white" href="/">FTI UKDW</a>
-    
-    <ul class="navbar-nav ms-auto mx-3">
+<header class="navbar navbar-expand-md navbar-dark sticky-top bg-dark shadow" data-bs-theme="dark">
+    <a class="navbar-brand col-lg-2 px-3 text-white" href="/">FTI UKDW</a>
+
+    <div class="col-md-4">
+        <form action="/dosen" method="get" class="d-flex">
+            <input type="text" class="form-control me-2" placeholder="Search.." name="search" value="{{ request('search') }}">
+            <button class="btn btn-outline-secondary" type="submit">Search</button>
+        </form>
+    </div>
+
+    <ul class="navbar-nav ms-auto">
         @auth
         <li class="nav-item dropdown">
-            <div class="dropdown">
-                <a class="nav-link dropdown-toggle" href="#" role="button" id="navbarDropdown"
-                    data-bs-toggle="dropdown" aria-expanded="false">
-                    {{ auth()->user()->name }}
-                </a>
-                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                    <li>
-                        <form action="/logout" method="post">
-                            @csrf
-                            <button type="submit" class="dropdown-item"><i class="bi bi-box-arrow-right"></i>Logout</button>
-                        </form>
-                    </li>
-                </ul>
-            </div>
+            <a class="nav-link dropdown-toggle" href="#" role="button" id="navbarDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                {{ auth()->user()->name }}
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                <li>
+                    <form action="/logout" method="post">
+                        @csrf
+                        <button type="submit" class="dropdown-item"><i class="bi bi-box-arrow-right"></i> Logout</button>
+                    </form>
+                </li>
+            </ul>
         </li>
         @endauth
     </ul>

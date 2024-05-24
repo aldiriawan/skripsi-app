@@ -5,7 +5,7 @@
     <div class="col-md-4">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h4 class="my-3">Dosen</h4>
-            <div class="btn-group mb-1">
+            <div class="btn-group">
                 @php
                     $selectedProgramStudi = request('program_studi');
                     $buttonLabel = $selectedProgramStudi ? $selectedProgramStudi : 'Pilih Program Studi';
@@ -20,15 +20,6 @@
             </div>
         </div>
         
-        <div class="col-md-12 mb-3">
-            <form action="/dosen" method="get">
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Search.." name="search" value="{{ request('search') }}">
-                    <button class="btn btn-outline-secondary" type="submit">Search</button>
-                </div>
-            </form>
-        </div>
-
         @if (session()->has('success'))
         <div class="alert alert-success col-lg-8" role="alert">
             {{ session('success')}}
@@ -66,8 +57,9 @@
         <div class="row">
             <div class="col-md-12 mb-3">
                 <h4 class="my-3">{{ $selectedDosen->nama }}</h4>
+                <hr></hr>
                 <!-- Grafik Batang -->
-                <h4 class="mb-0 text-center">Kinerja Dosen Pertahun</h4>
+                <h4 class="text-center">Kinerja Dosen Pertahun</h4>
                 <canvas id="barChart" style="max-height: 300px;"></canvas>
             </div>
 
@@ -120,53 +112,39 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <!-- Isi tabel Jurnal Internasional -->
-                                    <tr>
-                                        <td>S1</td>
-                                        <td></td> <!-- Kolom kanan kosong -->
-                                    </tr>
-                                    <tr>
-                                        <td>S2</td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>S3</td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>S4</td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>S5</td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>S6</td>
-                                        <td></td>
-                                    </tr>
-                                    <!-- Tambahkan baris lain sesuai kebutuhan -->
+                                    @php
+                                        $kategoriAkreditasi = ['Q1', 'Q2', 'Q3', 'Q4', 'Q', '-'];
+                                    @endphp
+                                    @foreach ($kategoriAkreditasi as $kategori)
+                                        @php
+                                            $jumlah = $jumlahAkreditasiPerKategori->firstWhere('akreditasi', $kategori);
+                                        @endphp
+                                        <tr>
+                                            <td>{{ $kategori }}</td>
+                                            <td>{{ $jumlah ? $jumlah->jumlah_akreditasi : 0 }}</td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div>
-                            <p><strong>Jurnal Internasional:</strong></p>
-                            <p><strong>Jurnal Nasional:</strong></p>
-                            <p><strong>Jumlah HKI:</strong></p>
+                            <p><strong>Jurnal Nasional:</strong> {{ $jumlahPublikasiNasional }}</p>
+                            <p><strong>Jurnal Internasional:</strong> {{ $jumlahPublikasiInternasional }}</p>
+                            <p><strong>Jumlah HKI:</strong> {{ $jumlahHKI }}</p>
                             <p><strong>Jumlah Paten:</strong></p>
                         </div>
                     </div>
                 </div>
             </div>
                         
-        <div class="col-md-12">
+            <div class="col-md-12">
                 <!-- List -->
                 <h3>Penunjang</h3>
                 <ul>
                     @foreach ($penunjang as $data)
-                        <li>
+                       
                             <div class="d-flex align-items-center">
                                 <!-- Indikator bulat -->
                                 <div class="indicator @if($data->waktu_akhir > now()->addDays(7)) bg-success @elseif($data->waktu_akhir > now()->addDays(2)) bg-warning @else bg-danger @endif"></div>
@@ -175,12 +153,12 @@
                                     {{ $data->keterangan }} - {{ \Carbon\Carbon::parse($data->waktu_awal)->format('d M Y') }} - {{ \Carbon\Carbon::parse($data->waktu_akhir)->format('d M Y') }}
                                 </div>
                             </div>
-                        </li>
+                   
                     @endforeach
                 </ul>
             </div>
-            
         </div>
+        @endif
     </div>
 </div>
 
@@ -215,9 +193,6 @@
                 }
             });
         </script>
-        @endif
-    </div>
-</div>
 @endsection
 
 @push('scripts')

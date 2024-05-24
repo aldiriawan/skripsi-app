@@ -14,34 +14,54 @@
                         <svg class="bi">
                             <use xlink:href="#house-fill" />
                         </svg>
-                        Dashboard
+                        <span class="text-sidebar">Dashboard</span>
                     </a>
                 </li>
             </ul>
             <hr class="my-3">
-            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 text-body-secondary text-uppercase">
-                <span style="color: black;">Admin</span>
+            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 text-uppercase">
+                <span class="text-sidebar">Admin</span>
             </h6>
             <ul class="nav flex-column mb-auto">
                 <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center gap-2 {{ Request::is('/dosen') ? 'active' : '' }}"
+                    <a class="nav-link d-flex align-items-center gap-2 {{ Request::is('dosen') ? 'active' : '' }}"
                         aria-current="page" href="/dosen?dosen_id=1">
                         <svg class="bi">
                             <use xlink:href="#file-earmark-text" />
                         </svg>
-                        <span style="color: black; font-weight: normal;">Data Dosen</span>
+                        <span class="text-sidebar">Data Dosen</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center gap-2 {{ Request::is('/') ? 'active' : '' }}"
+                    <a class="nav-link d-flex align-items-center gap-2 {{ Request::is('user') ? 'active' : '' }}"
                         aria-current="page" href="/user">
                         <svg class="bi">
                             <use xlink:href="#file-earmark-text" />
                         </svg>
-                        <span style="color: black; font-weight: normal;">Data User</span>
+                        <span class="text-sidebar">Data User</span>
                     </a>
                 </li>
             </ul>
         </div>
     </div>
 </div>
+
+<style>
+.text-sidebar {
+    color: black;
+    font-weight: normal;
+}
+
+.nav-link.active .text-sidebar {
+    color: black;
+    font-weight: bold; /* Optional: to highlight the active link */
+}
+
+.nav-link .text-sidebar {
+    color: black; /* Ensure all text within nav-link has the same color */
+}
+
+.sidebar-heading .text-sidebar {
+    color: black; /* Ensure the sidebar heading has the same color */
+}
+</style>

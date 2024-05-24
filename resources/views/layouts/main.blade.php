@@ -3,7 +3,7 @@
 
 <head>
     <script src="../assets/js/color-modes.js"></script>
-
+    <link rel="shorcut icon" href="/img/favicon.png">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>FTI UKDW | {{ $title }}</title>
