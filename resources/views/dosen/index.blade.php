@@ -136,22 +136,35 @@
                         
             <div class="col-md-12">
                 <!-- List -->
-                <h3>Penunjang</h3>
+                <h4>Penunjang</h4>
                 <ul>
                     @foreach ($penunjang as $data)
-                       
-                            <div class="d-flex align-items-center">
-                                <!-- Indikator bulat -->
-                                <div class="indicator @if($data->waktu_akhir > now()->addDays(7)) bg-success @elseif($data->waktu_akhir > now()->addDays(2)) bg-warning @else bg-danger @endif"></div>
-                                <!-- Keterangan -->
-                                <div>
-                                    {{ $data->keterangan }} - {{ \Carbon\Carbon::parse($data->waktu_awal)->format('d M Y') }} - {{ \Carbon\Carbon::parse($data->waktu_akhir)->format('d M Y') }}
-                                </div>
+                        <div class="d-flex align-items-center mb-2">
+                            <!-- Indikator bulat -->
+                            @php
+                                $waktu_akhir = \Carbon\Carbon::parse($data->waktu_akhir);
+                                $now = now();
+                            @endphp
+            
+                            <div class="indicator 
+                                @if($waktu_akhir > $now->addDays(7)) 
+                                    bg-success 
+                                @elseif($waktu_akhir > $now->addDays(2)) 
+                                    bg-warning 
+                                @else 
+                                    bg-danger 
+                                @endif">
                             </div>
-                   
+                            <!-- Keterangan -->
+                            <div>
+                                {{ $data->keterangan }} - {{ \Carbon\Carbon::parse($data->waktu_awal)->format('d M Y') }} - {{ \Carbon\Carbon::parse($data->waktu_akhir)->format('d M Y') }}
+                            </div>
+                        </div>
                     @endforeach
                 </ul>
             </div>
+            
+            
         </div>
         @endif
     </div>
@@ -188,10 +201,31 @@
                 }
             });
         </script>
-@endsection
 
 @push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 @endpush
+
+<style>
+    .indicator {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        margin-right: 10px;
+        display: inline-block;
+    }
+    .bg-success {
+        background-color: green !important;
+    }
+    .bg-warning {
+        background-color: yellow !important;
+    }
+    .bg-danger {
+        background-color: red !important;
+    }
+</style>
+
+
+@endsection

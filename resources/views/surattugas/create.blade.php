@@ -30,7 +30,7 @@
                 <label for="peran" class="form-label">Peran Dosen</label>
                 <select class="form-select" name="peran_id">
                     @foreach ($peran as $p)
-                    <option value="{{ $p->id }}" {{ old('peran_id') == $p->id ? 'selected' : '' }}>{{ $p->nama }}</option>
+                    <option value="{{ $p->id }}" {{ old('peran_id') == $p->id ? 'selected' : '' }}>{{ $p->nama_peran }}</option>
                     @endforeach
                 </select>
             </div>
@@ -99,7 +99,7 @@
                 <label for="publikasi" class="form-label">Jenis Publikasi</label>
                 <select class="form-select" name="publikasi_id">
                     @foreach ($publikasi as $p)
-                    <option value="{{ $p->id }}" {{ old('publikasi_id') == $p->id ? 'selected' : '' }}>{{ $p->jenis }}</option>
+                    <option value="{{ $p->id }}" {{ old('publikasi_id') == $p->id ? 'selected' : '' }}>{{ $p->jenis_publikasi }}</option>
                     @endforeach
                 </select>
             </div>

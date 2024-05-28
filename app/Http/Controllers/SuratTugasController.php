@@ -22,11 +22,11 @@ class SuratTugasController extends Controller
     public function index()
     {
 
-        $surattugas = SuratTugas::orderBy('created_at', 'desc')->paginate(10);
+        $suratTugas = SuratTugas::orderBy('created_at', 'desc')->paginate(10);
 
         return view('surattugas.index', [
             'title' => 'Data Surat Tugas',
-            'surattugas' => $surattugas,
+            'surattugas' => $suratTugas,
             'dosen' => Dosen::all(),
             'peran' => Peran::all(),
             'jenis' => Jenis::all(),
@@ -123,33 +123,26 @@ class SuratTugasController extends Controller
      */
     public function update(Request $request, SuratTugas $suratTugas)
     {
-        $rules = [
+        $validatedData = $request->validate([
+            'nomor' => 'required',
             'dosen_id' => 'required',
-            'tanggal' => 'required',
+            'peran_id' => 'required',
+            'tanggal' => 'required|date',
             'keterangan' => 'required',
-            'waktu_awal' => 'required',
-            'waktu_akhir' => 'required',
+            'waktu_awal' => 'required|date',
+            'waktu_akhir' => 'required|date',
             'bukti_id' => 'required',
             'jenis_id' => 'required',
-            'tingkat_id' => 'required',
+            'publikasi_id' => 'nullable',
             'akreditasi' => 'required',
-            'peran_id' => 'required',
-            'publikasi_id' => 'required'
-        ];
+            'tingkat_id' => 'required',
+        ]);
 
-        if ($request->nomor != $suratTugas->nomor) {
-            $rules['nomor'] = 'required|unique:surat_tugas';
-        }
+        $suratTugas->update($validatedData);
 
-        $validatedData =  $request->validate($rules);
-
-        $validatedData['user_id'] = auth()->user()->id;
-
-        SuratTugas::where('id', $suratTugas->id)
-            ->update($validatedData);
-
-        return redirect('/surattugas')->with('success', 'Data Surat Tugas sudah diubah!');
+        return redirect('/surattugas')->with('success', 'Data surat tugas berhasil diperbarui!');
     }
+
 
     /**
      * Remove the specified resource from storage.

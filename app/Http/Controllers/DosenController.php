@@ -6,7 +6,6 @@ use App\Models\Dosen;
 use App\Models\SuratTugas;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\DB;
 
 class DosenController extends Controller
 {
@@ -34,6 +33,7 @@ class DosenController extends Controller
         $selectedDosen = null;
         $penunjang = collect();
         $tingkatSuratCounts = [];
+        $selectedDosenId = null; // Inisialisasi variabel
 
         if ($dosen_id) {
             $selectedDosen = Dosen::find($dosen_id);
@@ -58,30 +58,33 @@ class DosenController extends Controller
             }
         }
 
-
         // Mengambil jumlah publikasi internasional
-        $jumlahPublikasiInternasional = SuratTugas::where('dosen_id', $selectedDosenId)
-            ->where('publikasi_id', 1)
-            ->when($tahun, function ($query) use ($tahun) {
-                $query->whereYear('waktu_awal', $tahun);
-            })
-            ->count();
+        $jumlahPublikasiInternasional = 0;
+        $jumlahPublikasiNasional = 0;
+        $jumlahHKI = 0;
 
-        // Mengambil jumlah publikasi nasional
-        $jumlahPublikasiNasional = SuratTugas::where('dosen_id', $selectedDosenId)
-            ->where('publikasi_id', 2)
-            ->when($tahun, function ($query) use ($tahun) {
-                $query->whereYear('waktu_awal', $tahun);
-            })
-            ->count();
+        if ($selectedDosenId) {
+            $jumlahPublikasiInternasional = SuratTugas::where('dosen_id', $selectedDosenId)
+                ->where('publikasi_id', 1)
+                ->when($tahun, function ($query) use ($tahun) {
+                    $query->whereYear('waktu_awal', $tahun);
+                })
+                ->count();
 
-        // Mengambil jumlah HKI
-        $jumlahHKI = SuratTugas::where('dosen_id', $selectedDosenId)
-            ->where('jenis_id', 3)
-            ->when($tahun, function ($query) use ($tahun) {
-                $query->whereYear('waktu_awal', $tahun);
-            })
-            ->count();
+            $jumlahPublikasiNasional = SuratTugas::where('dosen_id', $selectedDosenId)
+                ->where('publikasi_id', 2)
+                ->when($tahun, function ($query) use ($tahun) {
+                    $query->whereYear('waktu_awal', $tahun);
+                })
+                ->count();
+
+            $jumlahHKI = SuratTugas::where('dosen_id', $selectedDosenId)
+                ->where('jenis_id', 3)
+                ->when($tahun, function ($query) use ($tahun) {
+                    $query->whereYear('waktu_awal', $tahun);
+                })
+                ->count();
+        }
 
         return view('dosen.index', [
             'title' => 'Data Dosen',
@@ -135,7 +138,6 @@ class DosenController extends Controller
         return view('dosen.edit', [
             'title' => 'Edit Data Dosen',
             'dosen' => $dosen,
-
         ]);
     }
 
@@ -149,7 +151,7 @@ class DosenController extends Controller
             'program_studi' => 'required',
         ];
 
-        $validatedData =  $request->validate($rules);
+        $validatedData = $request->validate($rules);
 
         Dosen::where('id', $dosen->id)
             ->update($validatedData);
@@ -160,6 +162,6 @@ class DosenController extends Controller
     public function destroy(Dosen $dosen)
     {
         Dosen::destroy($dosen->id);
-        return redirect('/dosen')->with('success', 'Data  sudah terhapus!');
+        return redirect('/dosen')->with('success', 'Data sudah terhapus!');
     }
 }
