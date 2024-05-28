@@ -12,6 +12,7 @@ use App\Models\Publikasi;
 use Illuminate\Http\Request;
 use App\Imports\SuratTugasImport;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Pagination\Paginator;
 
 class SuratTugasController extends Controller
 {
@@ -20,9 +21,12 @@ class SuratTugasController extends Controller
      */
     public function index()
     {
+
+        $surattugas = SuratTugas::orderBy('created_at', 'desc')->paginate(10);
+
         return view('surattugas.index', [
             'title' => 'Data Surat Tugas',
-            'surattugas' => SuratTugas::all(),
+            'surattugas' => $surattugas,
             'dosen' => Dosen::all(),
             'peran' => Peran::all(),
             'jenis' => Jenis::all(),

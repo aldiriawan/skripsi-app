@@ -50,6 +50,8 @@
             @endforeach
         </tbody>
     </table>
+    <!-- Menampilkan pagination links -->
+    {{ $surattugas->links() }}
 </div>
 @else
 <p class="text-center fs-4">Data tidak ditemukan.</p>
