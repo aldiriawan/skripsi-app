@@ -9,40 +9,10 @@
     <form method="post" action="/dosen" class="mb-5" enctype="multipart/form-data">
         @csrf
         <div class="mb-3">
-            <label for="name" class="form-label">Nama Lengkap</label>
-            <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name"
-                required autofocus value="{{ old('name') }}">
-            @error('name')
-            <div class="invalid-feedback">
-                {{ $message }}
-            </div>
-            @enderror
-        </div>
-        <div class="mb-3">
-            <label for="nik" class="form-label">NIK</label>
-            <input type="text" class="form-control @error('nik') is-invalid @enderror" id="nik" name="nik" required
-                value="{{ old('nik') }}">
-            @error('nik')
-            <div class="invalid-feedback">
-                {{ $message }}
-            </div>
-            @enderror
-        </div>
-        <div class="mb-3">
-            <label for="email" class="form-label">Email</label>
-            <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" required
-                value="{{ old('email') }}">
-            @error('email')
-            <div class="invalid-feedback">
-                {{ $message }}
-            </div>
-            @enderror
-        </div>
-        <div class="mb-3">
-            <label for="telepon" class="form-label">Telepon</label>
-            <input type="text" class="form-control @error('telepon') is-invalid @enderror" id="telepon" name="telepon" required
-                value="{{ old('telepon') }}">
-            @error('telepon')
+            <label for="nama" class="form-label">Nama Dosen</label>
+            <input type="text" class="form-control @error('nama') is-invalid @enderror" id="nama" name="nama"
+                required autofocus value="{{ old('nama') }}">
+            @error('nama')
             <div class="invalid-feedback">
                 {{ $message }}
             </div>
@@ -50,8 +20,11 @@
         </div>
         <div class="mb-3">
             <label for="program_studi" class="form-label">Program Studi</label>
-            <input type="text" class="form-control @error('program_studi') is-invalid @enderror" id="program_studi" name="program_studi" required
-                value="{{ old('program_studi') }}">
+            <select class="form-select @error('program_studi') is-invalid @enderror" id="program_studi" name="program_studi" required>
+                <option value="">Pilih Program Studi</option>
+                <option value="Informatika" {{ old('program_studi') == 'Informatika' ? 'selected' : '' }}>Informatika</option>
+                <option value="Sistem Informasi" {{ old('program_studi') == 'Sistem Informasi' ? 'selected' : '' }}>Sistem Informasi</option>
+            </select>
             @error('program_studi')
             <div class="invalid-feedback">
                 {{ $message }}

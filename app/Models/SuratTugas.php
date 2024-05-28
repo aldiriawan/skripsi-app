@@ -19,11 +19,6 @@ class SuratTugas extends Model
         'id'
     ];
 
-    public function getRouteKeyName()
-    {
-        return 'nomor';
-    }
-
     public function dosen()
     {
         return $this->belongsTo(Dosen::class, 'dosen_id');

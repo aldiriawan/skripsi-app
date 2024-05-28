@@ -15,11 +15,39 @@ class TingkatSeeder extends Seeder
     public function run(): void
     {
         Tingkat::create([
+            'nama_tingkat' => 'Lokal',
+        ]);
+
+        Tingkat::create([
             'nama_tingkat' => 'Nasional',
         ]);
 
         Tingkat::create([
             'nama_tingkat' => 'Internasional',
+        ]);
+
+        Tingkat::create([
+            'nama_tingkat' => 'Sinta 1',
+        ]);
+
+        Tingkat::create([
+            'nama_tingkat' => 'Sinta 2',
+        ]);
+
+        Tingkat::create([
+            'nama_tingkat' => 'Sinta 3',
+        ]);
+
+        Tingkat::create([
+            'nama_tingkat' => 'Sinta 4',
+        ]);
+
+        Tingkat::create([
+            'nama_tingkat' => 'Sinta 5',
+        ]);
+
+        Tingkat::create([
+            'nama_tingkat' => 'Sinta 6',
         ]);
     }
 }

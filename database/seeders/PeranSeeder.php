@@ -14,31 +14,31 @@ class PeranSeeder extends Seeder
     public function run(): void
     {
         Peran::create([
-            'nama' => 'Peserta'
+            'nama_peran' => 'Peserta'
         ]);
 
         Peran::create([
-            'nama' => 'Penulis/Pencipta'
+            'nama_peran' => 'Penulis/Pencipta'
         ]);
 
         Peran::create([
-            'nama' => 'Tim/Panitia'
+            'nama_peran' => 'Tim/Panitia'
         ]);
 
         Peran::create([
-            'nama' => 'Narasumber/Pembicara'
+            'nama_peran' => 'Narasumber/Pembicara'
         ]);
 
         Peran::create([
-            'nama' => 'Pembimbing'
+            'nama_peran' => 'Pembimbing'
         ]);
 
         Peran::create([
-            'nama' => 'Moderator'
+            'nama_peran' => 'Moderator'
         ]);
 
         Peran::create([
-            'nama' => 'Reviewer'
+            'nama_peran' => 'Reviewer'
         ]);
     }
 }

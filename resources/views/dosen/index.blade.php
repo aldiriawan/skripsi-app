@@ -4,19 +4,20 @@
 <div class="row">
     <div class="col-md-4">
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <h4 class="my-3">Dosen</h4>
+            <h3 class="my-3">Dosen</h3>
             <div class="btn-group">
                 @php
                     $selectedProgramStudi = request('program_studi');
                     $buttonLabel = $selectedProgramStudi ? $selectedProgramStudi : 'Pilih Program Studi';
                 @endphp
-                <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                <button type="button" class="btn btn-secondary dropdown-toggle mx-1" data-bs-toggle="dropdown" aria-expanded="false">
                     {{ $buttonLabel }}
                 </button>
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item" href="/dosen?program_studi=Informatika">Informatika</a></li>
                     <li><a class="dropdown-item" href="/dosen?program_studi=Sistem%20Informasi">Sistem Informasi</a></li>
                 </ul>
+                <a href="/dosen/create" class="btn btn-primary"><i class="bi bi-plus"></i></a>
             </div>
         </div>
         
@@ -56,25 +57,37 @@
         @if ($selectedDosen)
         <div class="row">
             <div class="col-md-12 mb-3">
-                <h4 class="my-3">{{ $selectedDosen->nama }}</h4>
+                <div class="d-flex justify-content-between align-items-center">
+                    <h4 class="mt-3">{{ $selectedDosen->nama }}</h4>
+                    <div class="d-flex">
+                        <a href="/dosen/{{ $selectedDosen->id }}/edit" class="btn btn-warning btn-sm me-2"><i class="bi bi-pencil-square"></i></a>
+                        <form action="/dosen/{{ $selectedDosen->id }}" method="post" class="d-inline">
+                            @method('delete')
+                            @csrf
+                            <button class="btn btn-danger btn-sm border-0" onclick="return confirm('Apakah Anda yakin?')"><i class="bi bi-trash"></i></button>
+                        </form>
+                    </div>
+                </div>
                 <hr></hr>
                 <!-- Grafik Batang -->
-                <h4 class="text-center">Kinerja Dosen Pertahun</h4>
-                <canvas id="barChart" style="max-height: 300px;"></canvas>
+                <h5 class="text-center">Kinerja Dosen Pertahun</h5>
+                <canvas id="barChart" style="max-height: 200px; max-width: auto"></canvas>
             </div>
 
             <div class="row">
                 <div class="d-flex justify-content-between align-items-center mb-3">
+                    @php
+                        $selectedYear = request('tahun', date('Y'));
+                    @endphp
                     <h4 class="mb-0">Publikasi</h4>
                     <div class="btn-group">
                         <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                            Pilih Tahun
+                            {{ $selectedYear }}
                         </button>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">2021</a></li>
-                            <li><a class="dropdown-item" href="#">2022</a></li>
-                            <li><a class="dropdown-item" href="#">2023</a></li>
-                            <li><a class="dropdown-item" href="#">2024</a></li>
+                            @foreach (range(2021, 2024) as $year)
+                                <li><a class="dropdown-item" href="/dosen?dosen_id={{ request('dosen_id') }}&tahun={{ $year }}">{{ $year }}</a></li>
+                            @endforeach
                         </ul>
                     </div>
                 </div>
@@ -87,21 +100,16 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @php
-                                    $kategoriAkreditasi = ['S1', 'S2', 'S3', 'S4', 'S5', 'S6'];
-                                @endphp
-                                @foreach ($kategoriAkreditasi as $kategori)
-                                    @php
-                                        $jumlah = $jumlahAkreditasiPerKategori->firstWhere('akreditasi', $kategori);
-                                    @endphp
-                                    <tr>
-                                        <td>{{ $kategori }}</td>
-                                        <td>{{ $jumlah ? $jumlah->jumlah_akreditasi : 0 }}</td>
-                                    </tr>
+                                @foreach ($tingkatSuratCounts as $tingkat => $count)
+                                <tr>
+                                    <td>{{ $tingkat }}</td>
+                                    <td>{{ $count }}</td>
+                                </tr>
                                 @endforeach
                             </tbody>
                         </table>
                     </div>
+                    
                     <div class="col-md-3">
                         <!-- Tabel Jurnal Internasional -->
                         <div class="table-responsive">
@@ -112,19 +120,6 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @php
-                                        $kategoriAkreditasi = ['Q1', 'Q2', 'Q3', 'Q4', 'Q', '-'];
-                                    @endphp
-                                    @foreach ($kategoriAkreditasi as $kategori)
-                                        @php
-                                            $jumlah = $jumlahAkreditasiPerKategori->firstWhere('akreditasi', $kategori);
-                                        @endphp
-                                        <tr>
-                                            <td>{{ $kategori }}</td>
-                                            <td>{{ $jumlah ? $jumlah->jumlah_akreditasi : 0 }}</td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
                             </table>
                         </div>
                     </div>
@@ -166,7 +161,7 @@
         <script>
             // Data dummy untuk grafik batang
             var labels = ['2021', '2022', '2023', '2024'];
-            var data = [65, 59, 80, 81, 56, 55];
+            var data = [15, 14, 13, 6, 5, 12];
 
             // Mendapatkan konteks dari elemen canvas
             var ctx = document.getElementById('barChart').getContext('2d');

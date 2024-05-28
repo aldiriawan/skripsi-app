@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DosenController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\PublikasiController;
 use App\Http\Controllers\SuratTugasController;
 
 Route::get('/', function () {
@@ -24,5 +25,6 @@ Route::post('/login', [LoginController::class, 'authenticate']);
 Route::post('/logout', [LoginController::class, 'logout'])->middleware('auth');
 Route::resource('/dosen', DosenController::class)->middleware('auth');
 Route::resource('/surattugas', SuratTugasController::class)->middleware('auth');
+Route::resource('/publikasi', PublikasiController::class)->middleware('auth');
 
 Route::post('surattugas/import', [SuratTugasController::class, 'ImportExcelData']);

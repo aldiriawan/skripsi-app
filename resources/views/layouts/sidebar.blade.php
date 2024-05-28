@@ -19,9 +19,6 @@
                 </li>
             </ul>
             <hr class="my-3">
-            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 text-uppercase">
-                <span class="text-sidebar">Admin</span>
-            </h6>
             <ul class="nav flex-column mb-auto">
                 <li class="nav-item">
                     <a class="nav-link d-flex align-items-center gap-2 {{ Request::is('dosen') ? 'active' : '' }}"
@@ -30,6 +27,24 @@
                             <use xlink:href="#file-earmark-text" />
                         </svg>
                         <span class="text-sidebar">Data Dosen</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link d-flex align-items-center gap-2 {{ Request::is('surattugas') ? 'active' : '' }}"
+                        aria-current="page" href="/surattugas">
+                        <svg class="bi">
+                            <use xlink:href="#file-earmark-text" />
+                        </svg>
+                        <span class="text-sidebar">Data Surat Tugas</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link d-flex align-items-center gap-2 {{ Request::is('publikasi') ? 'active' : '' }}"
+                        aria-current="page" href="/publikasi">
+                        <svg class="bi">
+                            <use xlink:href="#file-earmark-text" />
+                        </svg>
+                        <span class="text-sidebar">Data Publikasi</span>
                     </a>
                 </li>
                 <li class="nav-item">

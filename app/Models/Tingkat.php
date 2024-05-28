@@ -19,4 +19,9 @@ class Tingkat extends Model
     {
         return $this->hasMany(SuratTugas::class);
     }
+
+    public function publikasi()
+    {
+        return $this->hasMany(SuratTugas::class);
+    }
 }

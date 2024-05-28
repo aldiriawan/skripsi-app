@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\SuratTugas;
 use App\Models\Dosen;
 use App\Models\Jenis;
+use App\Models\Peran;
+use App\Models\Bukti;
+use App\Models\Tingkat;
+use App\Models\Publikasi;
 use Illuminate\Http\Request;
 use App\Imports\SuratTugasImport;
 use Maatwebsite\Excel\Facades\Excel;
@@ -20,8 +24,11 @@ class SuratTugasController extends Controller
             'title' => 'Data Surat Tugas',
             'surattugas' => SuratTugas::all(),
             'dosen' => Dosen::all(),
+            'peran' => Peran::all(),
             'jenis' => Jenis::all(),
-
+            'bukti' => Bukti::all(),
+            'tingkat' => Tingkat::all(),
+            'publikasi' => Publikasi::all(),
         ]);
     }
 
@@ -46,7 +53,12 @@ class SuratTugasController extends Controller
         return view('surattugas.create', [
             'title' => 'Buat Data Surat Tugas',
             'surattugas' => SuratTugas::all(),
-            'dosens' => Dosen::all()
+            'dosen' => Dosen::all(),
+            'peran' => Peran::all(),
+            'jenis' => Jenis::all(),
+            'bukti' => Bukti::all(),
+            'tingkat' => Tingkat::all(),
+            'publikasi' => Publikasi::all(),
         ]);
     }
 
@@ -93,7 +105,12 @@ class SuratTugasController extends Controller
         return view('surattugas.edit', [
             'title' => 'Edit Data Surat Tugas',
             'surattugas' => $suratTugas,
-            'dosens' => Dosen::all()
+            'dosen' => Dosen::all(),
+            'peran' => Peran::all(),
+            'jenis' => Jenis::all(),
+            'bukti' => Bukti::all(),
+            'tingkat' => Tingkat::all(),
+            'publikasi' => Publikasi::all(),
         ]);
     }
 
@@ -124,7 +141,7 @@ class SuratTugasController extends Controller
 
         $validatedData['user_id'] = auth()->user()->id;
 
-        Dosen::where('id', $suratTugas->id)
+        SuratTugas::where('id', $suratTugas->id)
             ->update($validatedData);
 
         return redirect('/surattugas')->with('success', 'Data Surat Tugas sudah diubah!');

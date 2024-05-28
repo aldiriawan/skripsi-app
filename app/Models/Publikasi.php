@@ -19,4 +19,9 @@ class Publikasi extends Model
     {
         return $this->hasMany(SuratTugas::class);
     }
+
+    public function tingkat()
+    {
+        return $this->belongsTo(Tingkat::class);
+    }
 }
